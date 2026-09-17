@@ -81,6 +81,14 @@ module USQualityCoreTestKit
     class USQualityCoreTestSuite < Inferno::TestSuite
       title 'US Quality Core Server v1.0.0-ballot'
 
+      requirement_sets(
+        {
+          identifier: 'us-quality-core-v1.0.0-ballot',
+          title: 'US Quality Core 1.0.0-ballot: Patient retrieval',
+          actor: 'Server'
+        }
+      )
+
       description %(
         The US Quality Core Server Test Kit tests server systems for their conformance to the [US Quality Core
         Implementation Guide](http://hl7.org/fhir/us/quality-core/1.0.0-202609-ballot/en).

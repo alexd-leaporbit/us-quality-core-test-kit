@@ -1,0 +1,3 @@
+Req Set,ID,URL,Requirement,Conformance,Actors,Sub-Requirement(s),Conditionality,Not Tested Reason,Not Tested Details
+us-quality-core-v1.0.0-ballot,usqc-patient-read,http://hl7.org/fhir/us/quality-core/us-quality-core-general-requirements.html#usqc-patient-read,US Quality Core servers **SHALL** support the Patient `read` interaction.,SHALL,Server,,false,,
+us-quality-core-v1.0.0-ballot,usqc-patient-id-search,http://hl7.org/fhir/us/quality-core/us-quality-core-general-requirements.html#usqc-patient-id-search,US Quality Core servers **SHALL** support searching Patient resources using the `_id` search parameter.,SHALL,Server,,false,,

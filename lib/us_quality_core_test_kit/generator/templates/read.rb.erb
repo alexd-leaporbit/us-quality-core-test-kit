@@ -9,7 +9,8 @@ module USQualityCoreTestKit
 
       description 'A server <%= conformance_expectation %> support the <%= resource_type %> read interaction.'
 
-      id :<%= test_id %>
+      id :<%= test_id %><% if group_metadata.reformatted_version == 'v100_ballot' && resource_type == 'Patient' %>
+      verifies_requirements 'us-quality-core-v1.0.0-ballot@usqc-patient-read'<% end %>
 
       def resource_type
         '<%= resource_type %>'
