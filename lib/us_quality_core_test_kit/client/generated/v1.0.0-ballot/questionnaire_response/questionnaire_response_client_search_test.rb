@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+# Only SHALL client searches are generated. SHOULD search tests may be added later.
+module USQualityCoreTestKit
+  module Client
+    module USQualityCoreClientV100_BALLOT
+      class QuestionnaireResponseClientSearchTest < Inferno::Test
+        include TestHelper
+
+        id :us_quality_core_v100_ballot_questionnaire_response_client_search_test
+
+        title 'Search QuestionnaireResponse using a supported combination'
+
+        description %(
+          The client demonstrates at least one required server search combination for QuestionnaireResponse.
+          Accepted combinations: `patient`, `patient + questionnaire`.
+        )
+
+        def required_search_combinations
+          [["patient"], ["patient", "questionnaire"]]
+        end
+
+        def all_required_search_parameters
+          ["patient", "questionnaire"]
+        end
+
+        run do
+          requests = load_tagged_requests(SEARCH_QUESTIONNAIRE_RESPONSE_TAG)
+          skip_if requests.blank?, 'Inferno did not receive any search requests for the `QuestionnaireResponse` resource type.'
+
+          matching_requests = filter_requests_by_search_parameter_combinations(requests, required_search_combinations)
+          assert matching_requests.any?,
+                 'Inferno did not receive a search for `QuestionnaireResponse` using any of these combinations: ' \
+                 "#{required_search_combinations.map { |names| names.join(' + ') }.join(', ')}."
+
+          non_required_search_parameters(matching_requests, all_required_search_parameters).each do |parameter|
+            warning "The client used the non-required search parameter `#{parameter}` for `QuestionnaireResponse`. " \
+                    'The server may not accept search parameters other than those required by the IG CapabilityStatement.'
+          end
+        end
+      end
+    end
+  end
+end
