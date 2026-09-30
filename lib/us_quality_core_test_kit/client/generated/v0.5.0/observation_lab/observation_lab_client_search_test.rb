@@ -20,18 +20,25 @@ module USQualityCoreTestKit
           [["patient", "category", "status"], ["patient", "category"], ["patient", "category", "date"], ["patient", "code"]]
         end
 
+        def skip_message
+          'Inferno did not receive any search requests for the `Observation` resource type.'
+        end
+
+        def failure_message
+          'Inferno did not receive a search for `Observation` using any of these combinations: ' \
+          "#{required_search_combinations.map { |names| names.join(' + ') }.join(', ')}."
+        end        
+
         def all_required_search_parameters
           ["patient", "category", "status", "date", "code"]
         end
 
         run do
           requests = load_tagged_requests(SEARCH_OBSERVATION_TAG)
-          skip_if requests.blank?, 'Inferno did not receive any search requests for the `Observation` resource type.'
+          skip_if requests.blank?, skip_message
 
           matching_requests = filter_requests_by_search_parameter_combinations(requests, required_search_combinations)
-          assert matching_requests.any?,
-                 'Inferno did not receive a search for `Observation` using any of these combinations: ' \
-                 "#{required_search_combinations.map { |names| names.join(' + ') }.join(', ')}."
+          assert matching_requests.any?, failure_message
 
           non_required_search_parameters(matching_requests, all_required_search_parameters).each do |parameter|
             warning "The client used the non-required search parameter `#{parameter}` for `Observation`. " \
